@@ -8,8 +8,8 @@ int main() {
 	string bobSession = createSession("bob");
 	string invalidsession = "invalidsession";
 
-	assert(!sessionExists(invalidSession));
-	assert(getUserName(invalidSession) == "");
+	assert(!sessionExists(invalidsession));
+	assert(getUsername(invalidsession) == "");
 
 
 	assert(aliceSession1 != aliceSession2);
