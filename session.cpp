@@ -16,10 +16,11 @@ unordered_map<
 
 random_device rd;
 mt19937_64 rng(rd());
-uint64_t high = rng();
-uint64_t low = rng();
 
 array<uint8_t, 16> generateRandomBytes() {
+	uint64_t high = rng();
+	uint64_t low = rng();
+
 	array<uint8_t, 16> randomBytes;
 	memcpy(randomBytes.data(), &high, sizeof(high));
 	memcpy(randomBytes.data() + 8, &low, sizeof(low));
