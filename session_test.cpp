@@ -6,6 +6,10 @@ int main() {
 	string aliceSession1 = createSession("alice");
 	string aliceSession2 = createSession("alice");
 	string bobSession = createSession("bob");
+	string invalidsession = "invalidsession";
+
+	assert(!sessionExists(invalidSession));
+	assert(getUserName(invalidSession) == "");
 
 
 	assert(aliceSession1 != aliceSession2);
