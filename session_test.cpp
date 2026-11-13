@@ -3,9 +3,9 @@
 #include <iostream>
 
 int main() {
-	string alice1 = createSession("alice");
-	string alice2 = createSession("alice");
-	string bob1 = createSession("bob");
+	string aliceSession1 = createSession("alice");
+	string aliceSession2 = createSession("alice");
+	string bobSession = createSession("bob");
 
 
 	assert(aliceSession1 != aliceSession2);
