@@ -10,6 +10,7 @@ int main() {
 
 	assert(!sessionExists(invalidsession));
 	assert(getUsername(invalidsession) == "");
+	cout << "invalid session passed" << endl;
 
 
 	assert(aliceSession1 != aliceSession2);
