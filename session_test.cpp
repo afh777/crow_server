@@ -3,10 +3,13 @@
 #include <iostream>
 
 int main() {
-	string sessionID = createSession("alice");
+	string alice1 = createSession("alice");
+	string alice2 = createSession("alice");
+	string bob1 = createSession("bob");
+
 
 	assert(!sessionID.empty());
-	assrt(sessionExists(sessionID));
+	assert(sessionExists(sessionID));
 	assert(getUsername(sessionID) == "alice");
 
 	cout << "Session creation test passed" << endl;
