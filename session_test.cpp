@@ -35,6 +35,12 @@ int main() {
 
 	cout << "session deletion test passed" << endl;
 
+	deleteSession("fake_session_id");
+
+	assert(!sessionExists("fake_session_id"));
+
+	cout << "Nonexistent deletion test passed!" << endl;
+
 	return 0;
 
 }
