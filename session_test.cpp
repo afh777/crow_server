@@ -8,9 +8,18 @@ int main() {
 	string bob1 = createSession("bob");
 
 
-	assert(!sessionID.empty());
-	assert(sessionExists(sessionID));
-	assert(getUsername(sessionID) == "alice");
+	assert(aliceSession1 != aliceSession2);
+	assert(aliceSession1 != bobSession);
+	assert(aliceSession2 != bobSession);
+
+	assert(getUsername(aliceSession1) == "alice");
+	assert(getUsername(aliceSession2) == "alice");
+	assert(getUsername(bobSession) == "bob");
+
+	assert(sessionExists(aliceSession1));
+	assert(sessionExists(aliceSession2));
+	assert(sessionExists(bobSession));
+
 
 	cout << "Session creation test passed" << endl;
 
