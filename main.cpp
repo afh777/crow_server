@@ -2,6 +2,7 @@
 #include "functions.h"
 #include "auth.h"
 #include "database.h"
+#include "session.h"
 
 #include <fstream>
 #include <sstream>
@@ -114,27 +115,33 @@ int main() {
 	});
 
 
-//login button route
+// login button route
 	CROW_ROUTE(app, "/api/login")
 		.methods("POST"_method)
-		([](const crow::request& req){
+		([](const crow::request& req) {
 
-    		auto body = crow::json::load(req.body);
+		auto body = crow::json::load(req.body);
 
-	    	if (!body) {
-        		return crow::response(400);
+		if (!body) {
+			return crow::response(400);
 		}
 
 		std::string username = body["username"].s();
 		std::string password = body["password"].s();
 
-		if (loginUser(username,password)) {
-	        	return crow::response("Login successful");
+		if (loginUser(username, password)) {
+												
+			std::string sessionID = createSession(username);
+
+			crow::json::wvalue result;
+			result["message"] = "Login successful";
+			result["sessionID"] = sessionID;
+
+			return crow::response(result);
 		}
 
-		return crow::response(401,
-                          "Incorrect password");
-});
+		return crow::response(401, "Incorrect password");
+	});
 
 //color picker
 	CROW_ROUTE(app, "/api/color/<string>") ([](std::string color) {
