@@ -5,6 +5,7 @@
 #include <random>
 #include <cstdint>
 #include <array>
+#include <cstring>
 
 using namespace std;
 
