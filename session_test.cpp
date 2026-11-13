@@ -41,6 +41,19 @@ int main() {
 
 	cout << "Nonexistent deletion test passed!" << endl;
 
+	assert(aliceSession2.length() == 22);
+
+	for (char c : aliceSession2) {
+		assert(
+			(c >= 'A' && c <= 'Z') ||
+			(c >= 'a' && c <= 'z') ||
+			(c >= '0' && c <= '9') ||
+			c == '-' || c == '_'
+		);
+	}
+
+	cout << "Session ID format test passed!" << endl;
+
 	return 0;
 
 }
