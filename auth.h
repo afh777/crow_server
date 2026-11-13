@@ -4,8 +4,10 @@
 
 bool registerUser(
 	std::string username,
-	std::string password);
+	std::string password
+);
 
 bool loginUser(
 	std::string username,
-	std::string password);
+	std::string password
+);

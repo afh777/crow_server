@@ -2,10 +2,16 @@
 
 #include <string>
 #include <iostream>
+#include <random>
+#include <cstdint>
 
 using namespace std;
 
 string createSession(string username);
+
+string encoding(array<uint8_t, 16> bytes);
+
+array<uint8_t, 16> generateRandomBytes();
 
 bool sessionExists(string sessionID);
 
