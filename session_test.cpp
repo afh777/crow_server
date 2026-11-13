@@ -28,6 +28,13 @@ int main() {
 
 	cout << "Session creation test passed" << endl;
 
+	deleteSession(aliceSession1);
+
+	assert(!sessionExists(aliceSession1));
+	assert(getUsername(aliceSession1) == "");
+
+	cout << "session deletion test passed" << endl;
+
 	return 0;
 
 }
