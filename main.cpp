@@ -74,6 +74,21 @@ int main() {
 		return crow::response(buffer.str());
 	});
 
+//game page
+	CROW_ROUTE(app, "/game")([]() {
+
+		std::ifstream file("public/game.html");
+
+		if (!file) {
+			return crow::response(404);
+		}
+
+		std::stringstream buffer;
+		buffer << file.rdbuf();
+
+		return crow::response(buffer.str());
+	});
+
 //serving authentication script
 	CROW_ROUTE(app, "/auth.js")([]() {
 		std::ifstream file("public/auth.js");
