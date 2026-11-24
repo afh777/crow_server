@@ -3,6 +3,7 @@
 #include "auth.h"
 #include "database.h"
 #include "session.h"
+#include "game_routes.h"
 
 #include <fstream>
 #include <sstream>
@@ -15,6 +16,7 @@ int main() {
 
 	initDatabase();
 	crow::SimpleApp app;
+	fellowship::registerGameRoutes(app);
 
 //main page
 	CROW_ROUTE(app, "/")([](){

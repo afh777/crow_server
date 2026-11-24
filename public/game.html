@@ -1,69 +1,157 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Middle-earth | Card Game</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Gather the Fellowship</title>
     <style>
+        /* CSS controls appearance. Change these colors to change the theme. */
+        * { box-sizing: border-box; }
         body {
-            background-color: #1e1e1e;
-            color: #e0d6c3;
+            margin: 0;
+            padding: 24px 16px;
+            background: #17211c;
+            color: #eee4cd;
             font-family: Georgia, serif;
-            text-align: center;
-            padding: 50px;
+            line-height: 1.5;
         }
-
-        h1 {
-            color: #c9a66b;
-        }
-
-        .container {
-            max-width: 700px;
-            margin: auto;
-            padding: 30px;
-            border: 1px solid #c9a66b;
-            border-radius: 12px;
-        }
-
-        button {
-            background-color: #c9a66b;
-            color: #1e1e1e;
-            padding: 12px 24px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
+        main { max-width: 540px; margin: auto; }
+        h1, h2 { color: #e2c378; }
+        h1 { margin-bottom: 4px; }
+        label { display: block; margin: 20px 0 6px; }
+        input, select, button {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #a89462;
+            border-radius: 8px;
+            font: inherit;
             font-size: 16px;
         }
-
-            button:hover {
-                background-color: #e0c28b;
-            }
+        input, select { background: #fff8e8; color: #17211c; }
+        article {
+            margin-top: 24px;
+            padding: 20px;
+            border: 1px solid #a89462;
+            border-radius: 12px;
+            background: #223329;
+        }
+        article h2 { margin-top: 0; }
+        button {
+            margin-top: 20px;
+            background: #e2c378;
+            color: #17211c;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        input:focus-visible, select:focus-visible, button:focus-visible {
+            outline: 3px solid #fff1bd;
+            outline-offset: 3px;
+        }
+        #selection { min-height: 3em; }
     </style>
 </head>
-
 <body>
+    <main>
+        <h1>Gather the Fellowship</h1>
+        <p>Choose your companion for the road through Middle-earth.</p>
 
-    <div class="container">
-        <h1>Middle-earth</h1>
-        <h2>A Card Game</h2>
+        <!-- HTML creates the fields and the empty spaces we fill with JavaScript. -->
+        <form id="character-form">
+            <label for="player-name">Your name</label>
+            <input id="player-name" type="text" maxlength="30"
+                   placeholder="Enter your name" autocomplete="nickname" required>
 
-        <p>
-            The journey has not yet begun.
-        </p>
+            <label for="character-choice">Your character</label>
+            <select id="character-choice"></select>
 
-        <p>
-            This page is currently under construction.
-            Soon, you will be able to gather your companions,
-            face your enemies, and journey across Middle-earth.
-        </p>
+            <article aria-labelledby="character-name">
+                <h2 id="character-name"></h2>
+                <p><strong>Level:</strong> 1</p>
+                <p><strong>Offense:</strong> <span id="offense"></span></p>
+                <p><strong>Defense:</strong> <span id="defense"></span></p>
+                <p><strong>Attack:</strong> <span id="attack"></span></p>
+                <p><strong>Chaos ability:</strong> <span id="chaos"></span></p>
+            </article>
 
-        <button onclick="window.location.href='/'">
-            Return Home
-        </button>
-    </div>
+            <button type="submit">Choose this character</button>
+        </form>
 
+        <p id="selection" role="status"></p>
+        <p><small>Character preview only. Joining a shared game comes next.</small></p>
+    </main>
+
+    <script>
+        // 1. GAME DATA: edit these objects to change the characters.
+        // An array is a list. Each object inside it describes one character.
+        const characters = [
+            { name: "Colin", offense: 7, defense: 3,
+              attack: "Choke", chaos: "Shadow puppet" },
+            { name: "Samuel", offense: 3, defense: 7,
+              attack: "Obscure philosophy", chaos: "Tape gun" },
+            { name: "Kaitlyn", offense: 6, defense: 4,
+              attack: "Knives", chaos: "Intense stare and hair flip" },
+            { name: "Matt", offense: 2, defense: 8,
+              attack: "Crab walk", chaos: "Mt Vernon Boys — call in backup" },
+            { name: "Will", offense: 4, defense: 6,
+              attack: "Rubber bands", chaos: "Dance off" },
+            { name: "Amelia", offense: 5, defense: 5,
+              attack: "Ten year plan to ruin someone's life",
+              chaos: "Project personalities into Kaitlyn and/or Samuel" },
+            { name: "Elliot", offense: 1, defense: 9,
+              attack: "Schemer (subtle knife)", chaos: "Geography" },
+            { name: "Catherine", offense: 8, defense: 2,
+              attack: "Backhand slap to the head", chaos: "Football knowledge" },
+            { name: "Sean", offense: 3, defense: 7,
+              attack: "Crab walk", chaos: "Warhammer lore" }
+        ];
+
+        // 2. PAGE ELEMENTS: these variables refer to HTML elements above.
+        const form = document.getElementById("character-form");
+        const nameInput = document.getElementById("player-name");
+        const characterChoice = document.getElementById("character-choice");
+        const selection = document.getElementById("selection");
+
+        // 3. FILL THE MENU: create an option for each character in the list.
+        characters.forEach(function(character, index) {
+            const option = document.createElement("option");
+            option.value = index;
+            option.textContent = character.name;
+            characterChoice.appendChild(option);
+        });
+
+        // 4. SHOW STATS: the menu value is the character's position in the array.
+        function showCharacter() {
+            const character = characters[characterChoice.value];
+            document.getElementById("character-name").textContent = character.name;
+            document.getElementById("offense").textContent = character.offense;
+            document.getElementById("defense").textContent = character.defense;
+            document.getElementById("attack").textContent = character.attack;
+            document.getElementById("chaos").textContent = character.chaos;
+            selection.textContent = "";
+        }
+
+        // 5. CONFIRM: prevent the form from reloading the page, then show a message.
+        // This is local to this page. Nothing is sent to the Pi yet.
+        function chooseCharacter(event) {
+            event.preventDefault();
+            const playerName = nameInput.value.trim();
+            if (playerName === "") {
+                selection.textContent = "Please enter your name first.";
+                nameInput.focus();
+                return;
+            }
+            const character = characters[characterChoice.value];
+            selection.textContent = playerName + " chose " + character.name +
+                ". Your journey begins at level 1!";
+        }
+
+        // 6. EVENTS: run our functions when someone uses the page.
+        characterChoice.addEventListener("change", showCharacter);
+        nameInput.addEventListener("input", function() {
+            selection.textContent = "";
+        });
+        form.addEventListener("submit", chooseCharacter);
+        showCharacter(); // Display the first character when the page opens.
+    </script>
 </body>
 </html>
-```

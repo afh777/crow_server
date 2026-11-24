@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#172720" />
+    <title>Fellowship of the Unhinged</title>
+    <link rel="stylesheet" href="/fellowship.css" />
+    <script src="/fellowship.js" defer></script>
+  </head>
+  <body>
+    <header class="masthead">
+      <a class="brand" href="/fellowship"
+        ><span class="seal" aria-hidden="true">✧</span
+        ><span
+          >FELLOWSHIP<span class="brand-small">OF THE UNHINGED</span></span
+        ></a
+      >
+      <div class="header-right">
+        <span id="connection" role="status">Lighting the beacons…</span
+        ><button id="rules-open" class="quiet">How to play</button>
+      </div>
+    </header>
+    <main>
+      <section id="entry" class="entry" hidden>
+        <div class="intro">
+          <p class="eyebrow">A MOST QUESTIONABLE FELLOWSHIP</p>
+          <h1>Small cards.<br />Great deeds.<br /><em>Dubious allies.</em></h1>
+          <p class="lede">
+            Gather your friends. Face the shadows of Middle-earth. Help each
+            other climb—and decide who deserves the final level.
+          </p>
+          <div class="intro-meta">
+            <span>2–9 companions</span><span>One shared table</span
+            ><span>First to level 10</span>
+          </div>
+          <div class="landscape" aria-hidden="true">
+            <div class="mountain m1"></div>
+            <div class="mountain m2"></div>
+            <div class="mountain m3"></div>
+            <div class="moon">✧</div>
+            <span>THE ROAD GOES EVER ON</span>
+          </div>
+        </div>
+        <section class="join-panel">
+          <p class="eyebrow">YOUR ADVENTURE STARTS HERE</p>
+          <h2>Take your place.</h2>
+          <form id="join-form">
+            <label for="name">Your name</label>
+            <input
+              id="name"
+              maxlength="40"
+              autocomplete="nickname"
+              placeholder="What shall we call you?"
+              required
+            />
+            <label for="character">Choose your companion</label>
+            <select id="character"></select>
+            <article id="character-preview" class="preview"></article>
+            <button
+              type="submit"
+              name="mode"
+              value="create"
+              class="primary wide"
+            >
+              Create a fellowship <span aria-hidden="true">→</span>
+            </button>
+            <div class="divider">OR JOIN YOUR FRIENDS</div>
+            <label for="room-code">Room code</label>
+            <div class="join-row">
+              <input
+                id="room-code"
+                maxlength="6"
+                placeholder="A1B2C3"
+                autocomplete="off"
+                autocapitalize="characters"
+                spellcheck="false"
+              /><button
+                id="join-room"
+                type="submit"
+                name="mode"
+                value="join"
+                class="secondary"
+              >
+                Join room
+              </button>
+            </div>
+          </form>
+          <p class="fine-print">
+            No account needed. Your seat reconnects when you reload this tab.
+            Rooms reset if the server restarts.
+          </p>
+        </section>
+      </section>
+
+      <section id="table" hidden>
+        <div class="table-heading">
+          <div>
+            <p class="eyebrow">YOUR FELLOWSHIP</p>
+            <h1 id="room-title">The gathering</h1>
+          </div>
+          <div class="table-tools">
+            <button id="share" class="secondary">Copy invite link</button
+            ><button id="switch" class="quiet">Switch table</button>
+          </div>
+        </div>
+        <div class="room-strip">
+          <strong id="room-badge"></strong><span id="phase-label"></span
+          ><label class="invite-label" for="invite">Invite</label
+          ><input id="invite" readonly aria-label="Room invite link" />
+        </div>
+        <div class="game-grid">
+          <aside class="panel roster">
+            <div class="section-label">
+              <h2>Companions</h2>
+              <span id="player-count"></span>
+            </div>
+            <div id="players"></div>
+          </aside>
+          <div class="center-column">
+            <section class="panel encounter" id="encounter"></section>
+            <section class="panel hand-panel">
+              <div class="section-label">
+                <h2>Your hand</h2>
+                <span id="hand-count"></span>
+              </div>
+              <p id="hand-tip" class="muted"></p>
+              <div id="hand" class="hand"></div>
+            </section>
+          </div>
+          <aside class="right-column">
+            <section class="panel" id="your-character"></section>
+            <section class="panel chronicle">
+              <div class="section-label">
+                <h2>The chronicle</h2>
+                <span aria-hidden="true">✦</span>
+              </div>
+              <ol id="log"></ol>
+            </section>
+          </aside>
+        </div>
+      </section>
+      <section id="loading" class="loading">
+        <span class="seal" aria-hidden="true">✧</span>
+        <p>Gathering the fellowship…</p>
+        <button id="retry" class="secondary" hidden>Try again</button>
+      </section>
+    </main>
+    <div id="notice" role="status" aria-live="polite" hidden></div>
+    <dialog id="rules">
+      <div class="section-label">
+        <p class="eyebrow">THE FELLOWSHIP'S FIELD GUIDE</p>
+        <button id="rules-close" class="quiet">Close</button>
+      </div>
+      <h2>A little courage. A little chaos.</h2>
+      <p>
+        <strong>Win:</strong> reach level 10 by defeating a monster on your own
+        turn. Helpers and blessing cards can only take you to level 9.
+      </p>
+      <ol>
+        <li>
+          <strong>Make camp.</strong> Equip a weapon, armor and charm. Replacing
+          an item discards the old one. Spend 3 gold to buy a random card. Play
+          blessing cards here.
+        </li>
+        <li>
+          <strong>Explore.</strong> Reveal a random monster. Your strength is
+          level + offense + equipment.
+        </li>
+        <li>
+          <strong>Make a deal.</strong> Other players can offer help; accept up
+          to two. Helpers add their full strength and +2 teamwork each.
+          Alliances last one encounter and cannot be revoked after acceptance.
+        </li>
+        <li>
+          <strong>Play your cards.</strong> Anyone can boost the fellowship;
+          outsiders can strengthen the monster. Each participant can use their
+          chaos ability once per encounter. Cards and accepted helpers give
+          everyone a 5-second response window; the initial reveal gives 8
+          seconds.
+        </li>
+        <li>
+          <strong>Fight or flee.</strong> Beat the monster's strength strictly;
+          ties lose. Flee succeeds if a d6 + your defense reaches 12, letting
+          the entire party escape. Failed flight costs participants 1 level if
+          their defense meets the monster's danger, otherwise 2; each also loses
+          a random hand card. Levels never go below 1.
+        </li>
+        <li>
+          <strong>Share the spoils.</strong> The active player earns the
+          monster's listed levels and cards, plus 2 gold. Every helper earns 1
+          level (up to 9), 1 card and 1 gold. Discard down to 8 before ending
+          your turn.
+        </li>
+      </ol>
+      <p>
+        <strong>Special alliances:</strong> Amelia + Kaitlyn + Samuel add +5
+        strength; Sean + Matt add +4, on top of normal teamwork.
+      </p>
+      <p>
+        <strong>Cards:</strong> draws are random with replacement, so duplicates
+        are possible. Hands have a storage cap of 20 cards; extra rewards above
+        20 are lost. Gear stays equipped after defeats. You may discard hand
+        cards at any time during play.
+      </p>
+      <p>
+        <strong>Reconnecting:</strong> keep this tab to preserve your seat. An
+        offline player's turn can be skipped by the host after 90 seconds.
+        Anyone can claim host after the host is offline for 2 minutes. The game
+        does not advance turns automatically.
+      </p>
+      <p class="muted">
+        An unofficial fan game with original house rules. Your friends'
+        character stats and chaos abilities are editable in cards.h.
+      </p>
+    </dialog>
+    <footer>
+      AN UNOFFICIAL MIDDLE-EARTH FAN GAME <span aria-hidden="true">✦</span> MADE
+      FOR YOUR FELLOWSHIP
+    </footer>
+  </body>
+</html>
